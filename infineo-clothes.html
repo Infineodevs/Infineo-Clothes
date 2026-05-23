@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INFINEO Clothes</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--bg:#fff;--bg2:#f7f7f7;--dark:#0a0a0a;--dark2:#1a1a1a;--muted:#888;--border:#e5e5e5;--border2:#d0d0d0;--green:#1a7a4a;--red:#c0392b;--gold:#b8860b;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--dark);}
+nav{background:var(--dark);padding:0 1.2rem;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:100;}
+.logo{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:#fff;font-style:italic;cursor:pointer;user-select:none;line-height:1.2;}
+.nav-links{display:flex;gap:.3rem;align-items:center;}
+.nav-btn{background:none;border:none;color:rgba(255,255,255,.55);font-family:'DM Sans',sans-serif;font-size:.82rem;cursor:pointer;padding:.38rem .75rem;border-radius:3px;}
+.nav-btn:hover{color:#fff;}
+.cart-btn{background:#fff!important;color:var(--dark)!important;font-weight:600!important;position:relative;}
+.cart-count{position:absolute;top:-5px;right:-5px;background:var(--red);color:#fff;border-radius:50%;width:16px;height:16px;font-size:.55rem;display:flex;align-items:center;justify-content:center;font-weight:700;}
+.page{display:none;}.page.active{display:block;}
+.container{max-width:1080px;margin:0 auto;padding:1.2rem;}
+.btn-p{background:var(--dark);color:#fff;border:none;padding:.68rem 1.6rem;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:600;cursor:pointer;}
+.btn-p:hover{background:var(--dark2);}
+.btn-o{background:none;color:var(--dark);border:1.5px solid var(--dark);padding:.66rem 1.6rem;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:.83rem;cursor:pointer;}
+.btn-o:hover{background:var(--dark);color:#fff;}
+.hero{background:var(--dark);padding:2.8rem 1.2rem;text-align:center;}
+.hero-tag{display:inline-block;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.45);font-size:.65rem;letter-spacing:2.5px;text-transform:uppercase;padding:.24rem .85rem;border-radius:2px;margin-bottom:.9rem;}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,5vw,3rem);color:#fff;line-height:1.1;font-weight:600;}
+.hero h1 em{font-style:italic;}
+.hero p{color:rgba(255,255,255,.4);margin-top:.4rem;font-size:.85rem;}
+.filters{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:1.2rem;}
+.fb{background:none;border:1.5px solid var(--border2);color:var(--muted);padding:.3rem .88rem;border-radius:2px;cursor:pointer;font-size:.75rem;font-family:'DM Sans',sans-serif;}
+.fb.on,.fb:hover{background:var(--dark);color:#fff;border-color:var(--dark);}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;border:1px solid var(--border);background:var(--border);}
+.pcard{background:#fff;display:flex;flex-direction:column;}
+.pcard:hover{z-index:2;box-shadow:0 6px 22px rgba(0,0,0,.1);}
+.pimg{width:100%;height:200px;background:var(--bg2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.pimg img{width:100%;height:100%;object-fit:cover;}
+.badge{position:absolute;top:8px;left:8px;color:#fff;padding:.14rem .45rem;border-radius:2px;font-size:.62rem;font-weight:600;text-transform:uppercase;}
+.badge-low{background:var(--dark);}
+.badge-out{background:#888;}
+.pinfo{padding:.8rem .9rem .95rem;flex:1;display:flex;flex-direction:column;border-top:1px solid var(--border);}
+.pbrand{color:var(--muted);font-size:.68rem;text-transform:uppercase;letter-spacing:.4px;}
+.pname{font-weight:600;font-size:.87rem;margin-top:2px;line-height:1.3;}
+.pprice{font-size:.98rem;font-weight:700;margin-top:.35rem;font-family:'Cormorant Garamond',serif;}
+.pstars{color:var(--gold);font-size:.68rem;margin-top:.2rem;}
+.size-sec{margin-top:.55rem;}
+.size-lbl{font-size:.65rem;color:var(--muted);margin-bottom:.25rem;text-transform:uppercase;letter-spacing:.4px;}
+.size-lbl .req{color:var(--red);}
+.sizes{display:flex;gap:.22rem;flex-wrap:wrap;}
+.sz{background:#fff;border:1.5px solid var(--border2);border-radius:2px;padding:.16rem .42rem;font-size:.68rem;cursor:pointer;color:var(--dark);font-weight:500;user-select:none;}
+.sz:hover{border-color:#555;background:var(--bg2);}
+.sz.on{background:var(--dark);color:#fff;border-color:var(--dark);}
+.sz.fs{font-style:italic;padding:.16rem .6rem;}
+.serr{font-size:.65rem;color:var(--red);margin-top:.2rem;display:none;}
+.cbtns{display:flex;flex-direction:column;gap:.28rem;margin-top:auto;padding-top:.65rem;}
+.abtn{background:#fff;color:var(--dark);border:1.5px solid var(--dark);padding:.45rem;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:.77rem;font-weight:500;cursor:pointer;}
+.abtn:hover{background:var(--dark);color:#fff;}
+.abtn:disabled,.bbtn:disabled{opacity:.3;cursor:not-allowed;}
+.bbtn{background:var(--dark);color:#fff;border:none;padding:.45rem;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:.77rem;font-weight:600;cursor:pointer;}
+.bbtn:hover{background:var(--dark2);}
+.clayout{display:grid;grid-template-columns:1fr 280px;gap:1.4rem;}
+.ci{display:flex;gap:.8rem;padding:.9rem;background:#fff;border:1px solid var(--border);border-radius:2px;margin-bottom:.5rem;align-items:center;}
+.ci-img{width:55px;height:55px;border-radius:2px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;overflow:hidden;border:1px solid var(--border);}
+.ci-img img{width:100%;height:100%;object-fit:cover;}
+.ci-name{font-weight:600;font-size:.85rem;}
+.ci-meta{color:var(--muted);font-size:.71rem;margin-top:1px;}
+.ci-price{font-weight:700;font-family:'Cormorant Garamond',serif;font-size:.95rem;}
+.qrow{display:flex;align-items:center;gap:.35rem;margin-top:.25rem;}
+.qbtn{background:var(--bg2);border:1px solid var(--border2);width:22px;height:22px;border-radius:2px;cursor:pointer;font-size:.8rem;display:flex;align-items:center;justify-content:center;}
+.qbtn:hover{background:var(--dark);color:#fff;border-color:var(--dark);}
+.rmbtn{background:none;border:none;color:var(--border2);cursor:pointer;margin-left:auto;font-size:.85rem;padding:.2rem;}
+.rmbtn:hover{color:var(--red);}
+.sbox{background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:1.1rem;position:sticky;top:68px;}
+.srow{display:flex;justify-content:space-between;margin-bottom:.4rem;font-size:.81rem;color:var(--muted);}
+.stotal{border-top:1.5px solid var(--dark);padding-top:.65rem;margin-top:.35rem;font-weight:700;font-size:.95rem;color:var(--dark);}
+.fbox{background:#fff;border:1px solid var(--border);border-radius:2px;padding:1.1rem;margin-bottom:.85rem;}
+.fbox h3{font-family:'Cormorant Garamond',serif;font-size:1.02rem;margin-bottom:.9rem;padding-bottom:.42rem;border-bottom:1px solid var(--border);}
+.fg{display:flex;flex-direction:column;gap:.25rem;margin-bottom:.78rem;}
+.fg label{font-size:.66rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;}
+input,textarea,select{border:1.5px solid var(--border);border-radius:2px;padding:.55rem .78rem;font-family:'DM Sans',sans-serif;font-size:.82rem;background:#fff;outline:none;transition:border-color .2s;width:100%;color:var(--dark);}
+input:focus,textarea:focus,select:focus{border-color:var(--dark);}
+input::placeholder,textarea::placeholder{color:#bbb;}
+textarea{resize:vertical;min-height:68px;}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:.78rem;}
+.popts{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;}
+.popt{border:1.5px solid var(--border);border-radius:2px;padding:.72rem;cursor:pointer;text-align:center;background:var(--bg2);}
+.popt:hover{border-color:#555;}
+.popt.on{border-color:var(--dark);background:var(--dark);}
+.popt.on p{color:#fff;}
+.popt span{font-size:1.2rem;display:block;margin-bottom:.18rem;}
+.popt p{font-size:.72rem;font-weight:500;color:var(--muted);}
+.rc{background:#fff;border:1px solid var(--border);border-radius:2px;padding:.9rem;margin-bottom:.6rem;}
+.sp{display:flex;gap:.18rem;font-size:1.2rem;cursor:pointer;}
+.sp span{color:var(--border2);}
+.sp span.on{color:var(--gold);}
+.awrap{display:grid;grid-template-columns:188px 1fr;gap:1.4rem;min-height:calc(100vh - 100px);}
+.aside{background:var(--dark);border-radius:2px;padding:1.1rem;height:fit-content;position:sticky;top:68px;}
+.aside h3{color:rgba(255,255,255,.32);font-size:.65rem;margin-bottom:.85rem;letter-spacing:1.5px;text-transform:uppercase;}
+.asb{background:none;border:none;color:rgba(255,255,255,.48);padding:.55rem .78rem;border-radius:2px;cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif;font-size:.79rem;display:flex;align-items:center;gap:.45rem;width:100%;margin-bottom:.1rem;}
+.asb:hover,.asb.on{background:rgba(255,255,255,.08);color:#fff;}
+.asb.danger{color:rgba(255,80,80,.6);}
+.asb.danger:hover{color:#ff6b6b;background:rgba(255,80,80,.08);}
+.amain{background:#fff;border:1px solid var(--border);border-radius:2px;padding:1.5rem;}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.65rem;margin-bottom:1.4rem;}
+.sc{background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:.9rem;text-align:center;}
+.snum{font-size:1.5rem;font-weight:700;font-family:'Cormorant Garamond',serif;}
+.slbl{font-size:.64rem;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.4px;}
+table{width:100%;border-collapse:collapse;font-size:.79rem;}
+th{background:var(--bg2);padding:.55rem .72rem;text-align:left;font-size:.65rem;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);border-bottom:1.5px solid var(--border);}
+td{padding:.65rem .72rem;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--bg2);}
+.os{padding:.14rem .45rem;border-radius:2px;font-size:.64rem;font-weight:600;text-transform:uppercase;}
+.os-pending{background:#fff8e1;color:#8b6914;}
+.os-confirmed{background:#e8f4fd;color:#1565c0;}
+.os-shipped{background:#f3e5f5;color:#6a1b9a;}
+.os-delivered{background:#e8f5e9;color:#1b5e20;}
+.os-cancelled{background:#ffebee;color:#b71c1c;}
+.lwrap{min-height:calc(100vh - 58px);display:flex;align-items:center;justify-content:center;background:var(--bg2);padding:1.2rem;}
+.lbox{max-width:340px;width:100%;background:#fff;border:1px solid var(--border);border-radius:3px;padding:2.2rem;}
+.lbox h2{font-family:'Cormorant Garamond',serif;font-size:1.45rem;margin-bottom:.28rem;}
+.lbox .sub{color:var(--muted);font-size:.77rem;margin-bottom:1.7rem;}
+.pwrap{position:relative;}
+.pwrap input{padding-right:2.4rem;}
+.eyeb{position:absolute;right:.65rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:.85rem;color:var(--muted);padding:0;width:auto;}
+.spg{text-align:center;padding:3.5rem 1.5rem;}
+.sicon{width:58px;height:58px;background:var(--bg2);border:1.5px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.4rem;}
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.46);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;}
+.mbg.open{display:flex;}
+.modal{background:#fff;border-radius:3px;padding:1.6rem;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;position:relative;border:1px solid var(--border);}
+.mclose{position:absolute;top:.8rem;right:.8rem;background:var(--bg2);border:1px solid var(--border);width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:.78rem;display:flex;align-items:center;justify-content:center;color:var(--muted);}
+.mclose:hover{background:var(--dark);color:#fff;border-color:var(--dark);}
+.odr{display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--border);font-size:.8rem;}
+.odr:last-child{border-bottom:none;}
+.odl{color:var(--muted);}
+.odv{font-weight:600;text-align:right;max-width:58%;}
+.toast{position:fixed;bottom:1.4rem;right:1.4rem;background:var(--dark);color:#fff;padding:.78rem 1.1rem;border-radius:3px;box-shadow:0 4px 16px rgba(0,0,0,.18);transform:translateY(70px);opacity:0;transition:all .3s;z-index:999;max-width:260px;font-size:.81rem;}
+.toast.show{transform:translateY(0);opacity:1;}
+.empty{text-align:center;padding:2.8rem;color:var(--muted);}
+.empty span{font-size:2.2rem;display:block;margin-bottom:.65rem;}
+.ab{padding:.22rem .45rem;border-radius:2px;cursor:pointer;font-size:.71rem;border:1px solid;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+.ab-v{background:#f0f4ff;color:#2c3a8a;border-color:#c7d2fe;}
+.ab-c{background:#f0fff4;color:#155724;border-color:#c3e6cb;text-decoration:none;display:inline-block;}
+.ab-d{background:#fff0f0;color:#b71c1c;border-color:#ffcdd2;}
+.iup-area{border:2px dashed var(--border2);border-radius:3px;padding:.9rem;background:var(--bg2);}
+.iup-btns{display:flex;gap:.45rem;margin-bottom:.65rem;}
+.iub{flex:1;padding:.5rem;border:1.5px solid var(--border2);border-radius:2px;background:#fff;font-size:.77rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;}
+.iub:hover{background:var(--dark);color:#fff;border-color:var(--dark);}
+.ipgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:.35rem;margin-bottom:.5rem;}
+.ipitem{position:relative;aspect-ratio:1;border-radius:3px;overflow:hidden;border:1px solid var(--border);}
+.ipitem img{width:100%;height:100%;object-fit:cover;}
+.ipdel{position:absolute;top:2px;right:2px;background:rgba(0,0,0,.62);color:#fff;border:none;border-radius:50%;width:17px;height:17px;font-size:.58rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.iurlrow{display:flex;gap:.35rem;margin-top:.45rem;}
+.iurlrow input{flex:1;font-size:.76rem;}
+.iurladd{padding:.35rem .6rem;background:var(--dark);color:#fff;border:none;border-radius:2px;cursor:pointer;font-size:.76rem;white-space:nowrap;font-family:'DM Sans',sans-serif;}
+.fsr{display:flex;align-items:center;gap:.4rem;margin:.42rem 0;}
+.fsr input[type=checkbox]{width:auto;height:auto;cursor:pointer;}
+.fsr label{font-size:.77rem;color:var(--dark);cursor:pointer;font-weight:500;}
+.shint{font-size:.65rem;color:var(--muted);margin-top:.2rem;line-height:1.5;}
+/* slider */
+.slwrap{position:relative;width:100%;height:100%;overflow:hidden;}
+.slwrap .slides{display:flex;height:100%;transition:transform .3s;}
+.slwrap .slides img{min-width:100%;height:100%;object-fit:cover;flex-shrink:0;}
+.slb{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.42);color:#fff;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;z-index:2;}
+.slb.lft{left:4px;}.slb.rgt{right:4px;}
+.sldots{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:3px;}
+.sldot{width:5px;height:5px;border-radius:3px;background:rgba(255,255,255,.45);}
+.sldot.on{width:13px;background:#fff;}
+#invPrint{display:none;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+footer{background:var(--dark);color:rgba(255,255,255,.3);text-align:center;padding:1.7rem;margin-top:2.8rem;font-size:.75rem;}
+footer span{color:rgba(255,255,255,.55);}
+@media(max-width:680px){
+  .clayout,.awrap{grid-template-columns:1fr;}
+  .aside{position:static;}
+  .fg2{grid-template-columns:1fr;}
+  .pgrid{grid-template-columns:repeat(2,1fr);}
+  td,th{padding:.38rem;}
+  table{font-size:.71rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo" id="logoEl" style="font-style:normal;font-size:1.2rem;letter-spacing:1px;">INFINEO<br><span style="font-size:.75rem;letter-spacing:3px;opacity:.6;">CLOTHES</span></div>
+  <div class="nav-links">
+    <button class="nav-btn" id="btnShop">Shop</button>
+    <button class="nav-btn" id="btnReviews">Reviews</button>
+    <button class="nav-btn cart-btn" id="btnCart">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
+  </div>
+</nav>
+
+<div class="page active" id="pg-shop">
+  <div class="hero">
+    <div class="hero-tag">Latest Collection</div>
+    <h1><em>INFINEO</em> Clothes</h1>
+    <p>Premium clothing at your doorstep</p>
+  </div>
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.7rem;margin:1.1rem 0 .75rem">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;">Collection</div>
+        <div style="color:var(--muted);font-size:.8rem;margin-bottom:.3rem;">Handpicked styles for you</div>
+      </div>
+      <input type="text" id="searchBox" placeholder="Search..." style="max-width:190px;">
+    </div>
+    <div class="filters" id="filterBtns">
+      <button class="fb on" data-cat="all">All</button>
+      <button class="fb" data-cat="T-Shirt">T-Shirts</button>
+      <button class="fb" data-cat="Shirt">Shirts</button>
+      <button class="fb" data-cat="Jeans">Jeans</button>
+      <button class="fb" data-cat="Trousers">Trousers</button>
+      <button class="fb" data-cat="Casual">Casual</button>
+      <button class="fb" data-cat="Formal">Formal</button>
+    </div>
+    <div class="pgrid" id="productGrid"></div>
+  </div>
+</div>
+
+<div class="page" id="pg-cart">
+  <div class="container">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;margin:.5rem 0 .2rem">Your Cart</div>
+    <div style="color:var(--muted);font-size:.8rem;margin-bottom:1.2rem;">Review before ordering</div>
+    <div id="cartContent"></div>
+  </div>
+</div>
+
+<div class="page" id="pg-checkout">
+  <div class="container">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;margin:.5rem 0 .2rem">Place Order</div>
+    <div style="color:var(--muted);font-size:.8rem;margin-bottom:1.2rem;">Fill your details</div>
+    <div class="clayout">
+      <div>
+        <div class="fbox">
+          <h3>📋 Your Details</h3>
+          <div class="fg2">
+            <div class="fg"><label>Full Name *</label><input id="cName" placeholder="Aapka naam"></div>
+            <div class="fg"><label>Phone *</label><input id="cPhone" type="tel" placeholder="9876543210"></div>
+            <div class="fg"><label>Email</label><input id="cEmail" type="email" placeholder="email@gmail.com"></div>
+            <div class="fg"><label>Alt. Phone</label><input id="cAlt" type="tel" placeholder="Doosra number"></div>
+          </div>
+          <div class="fg"><label>Full Address *</label><textarea id="cAddr" placeholder="Ghar no., Gali, Area, Shahar, PIN"></textarea></div>
+          <div class="fg2">
+            <div class="fg"><label>Landmark</label><input id="cLand" placeholder="Mandir/School ke paas"></div>
+            <div class="fg"><label>PIN Code *</label><input id="cPin" placeholder="440001"></div>
+          </div>
+        </div>
+        <div class="fbox">
+          <h3>💳 Payment</h3>
+          <div class="popts">
+            <div class="popt on" data-pay="upi"><span>📱</span><p>UPI</p></div>
+            <div class="popt" data-pay="netbanking"><span>🏦</span><p>Net Banking</p></div>
+            <div class="popt" data-pay="card"><span>💳</span><p>Card</p></div>
+            <div class="popt" data-pay="cod"><span>💵</span><p>Cash on Delivery</p></div>
+          </div>
+          <p id="payNote" style="font-size:.72rem;color:var(--muted);margin-top:.68rem;">📱 UPI payment after order confirmation.</p>
+        </div>
+        <div class="fbox">
+          <h3>📝 Special Note</h3>
+          <textarea id="cNote" placeholder="Gift wrapping ya koi khaas baat..."></textarea>
+        </div>
+      </div>
+      <div>
+        <div class="sbox">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;margin-bottom:.9rem;">Summary</div>
+          <div id="coItems"></div>
+          <hr style="border:none;border-top:1px solid var(--border);margin:.68rem 0;">
+          <div class="srow"><span>Subtotal</span><span id="coSub">₹0</span></div>
+          <div class="srow"><span>Delivery</span><span style="color:var(--green);font-weight:600;">FREE</span></div>
+          <div class="srow stotal"><span>Total</span><span id="coTotal">₹0</span></div>
+          <button class="btn-p" style="width:100%;margin-top:.95rem;padding:.78rem;" id="placeOrderBtn">Place Order →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="pg-success">
+  <div class="spg">
+    <div class="sicon">✓</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.75rem;">Order Ho Gaya!</h2>
+    <p style="color:var(--muted);margin-top:.38rem;">Shukriya! Aapka order mil gaya.</p>
+    <div id="successOid" style="display:inline-block;background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:.3rem .9rem;font-weight:700;margin-top:.7rem;font-size:.9rem;"></div>
+    <p style="margin-top:.85rem;color:var(--muted);font-size:.8rem;">Dukaan wale jald sampark karenge.</p>
+    <div style="margin-top:1.6rem;display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap;">
+      <button class="btn-p" id="btnAfterShop">Aur Shopping Karo</button>
+      <button class="btn-o" id="btnAfterReview">Review Likho</button>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="pg-reviews">
+  <div class="container" style="max-width:640px;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;margin:.5rem 0 .2rem">Customer Reviews</div>
+    <div style="color:var(--muted);font-size:.8rem;margin-bottom:1.2rem;">Graahakon ki raay</div>
+    <div id="reviewList"></div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:1.2rem;margin-top:1rem;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.08rem;margin-bottom:.95rem;">Apni Raay Likho</div>
+      <div class="fg"><label>Aapka Naam</label><input id="rName" placeholder="Naam daalo"></div>
+      <div class="fg" style="margin:.6rem 0;">
+        <label>Rating</label>
+        <div class="sp" id="starPick">
+          <span data-s="1">★</span><span data-s="2">★</span><span data-s="3">★</span><span data-s="4">★</span><span data-s="5">★</span>
+        </div>
+      </div>
+      <div class="fg"><label>Review</label><textarea id="rText" placeholder="Aapka experience..."></textarea></div>
+      <button class="btn-p" id="submitRevBtn">Submit Review</button>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="pg-adminlogin">
+  <div class="lwrap">
+    <div class="lbox">
+      <h2>Admin Panel</h2>
+      <p class="sub">INFINEO Clothes — Restricted Access</p>
+      <div class="fg"><label>Username</label><input type="text" id="adminUser" placeholder="Username" autocomplete="off"></div>
+      <div class="fg"><label>Password</label>
+        <div class="pwrap">
+          <input type="password" id="adminPw" placeholder="Password">
+          <button class="eyeb" id="eyeBtn">👁</button>
+        </div>
+      </div>
+      <button class="btn-p" style="width:100%;padding:.75rem;margin-top:.75rem;" id="adminLoginBtn">Login</button>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="pg-admin">
+  <div class="container">
+    <div class="awrap">
+      <div class="aside">
+        <h3>Admin</h3>
+        <button class="asb on" data-sec="dashboard">📊 Dashboard</button>
+        <button class="asb" data-sec="orders">📦 Orders</button>
+        <button class="asb" data-sec="products">👔 Products</button>
+        <button class="asb" data-sec="reviews">💬 Reviews</button>
+        <button class="asb" data-sec="settings">⚙️ Settings</button>
+        <button class="asb danger" id="logoutBtn">🚪 Logout</button>
+      </div>
+      <div class="amain" id="adminMain"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Product Modal -->
+<div class="mbg" id="prodModal">
+  <div class="modal">
+    <button class="mclose" id="closeProdModal">✕</button>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.22rem;margin-bottom:1.1rem;" id="prodModalTitle">Add Product</div>
+    <div class="fg"><label>Product Name *</label><input id="pm-name" placeholder="e.g. Classic White Shirt"></div>
+    <div class="fg2">
+      <div class="fg"><label>Category *</label>
+        <select id="pm-cat">
+          <option value="T-Shirt">T-Shirt</option>
+          <option value="Shirt">Shirt</option>
+          <option value="Jeans">Jeans</option>
+          <option value="Trousers">Trousers</option>
+          <option value="Casual">Casual</option>
+          <option value="Formal">Formal</option>
+        </select>
+      </div>
+      <div class="fg"><label>Price (₹) *</label><input id="pm-price" type="number" placeholder="599"></div>
+    </div>
+    <div class="fg2">
+      <div class="fg"><label>Stock *</label><input id="pm-stock" type="number" placeholder="50"></div>
+      <div class="fg"><label>Brand</label><input id="pm-brand" placeholder="INFINEO Clothes"></div>
+    </div>
+    <div class="fg">
+      <label>Sizes</label>
+      <div class="fsr">
+        <input type="checkbox" id="pm-freesize">
+        <label for="pm-freesize">Free Size (ek hi size hai)</label>
+      </div>
+      <div id="sizeWrap">
+        <input id="pm-sizes" placeholder="S, M, L, XL  ya  28, 30, 32, 34">
+        <div class="shint">Comma se alag karo — Alphabet: <b>S, M, L, XL</b> &nbsp;|&nbsp; Number: <b>28, 30, 32</b></div>
+      </div>
+    </div>
+    <div class="fg"><label>Emoji Icon</label><input id="pm-emoji" placeholder="👔" maxlength="4"></div>
+    <div class="fg">
+      <label>Product Images</label>
+      <div class="iup-area">
+        <div class="iup-btns">
+          <button type="button" class="iub" id="camBtn">📷 Camera</button>
+          <button type="button" class="iub" id="galBtn">🖼 Gallery</button>
+        </div>
+        <input type="file" id="imgCam" accept="image/*" capture="environment" style="display:none" multiple>
+        <input type="file" id="imgGal" accept="image/*" style="display:none" multiple>
+        <div class="ipgrid" id="imgPrevGrid"></div>
+        <div class="iurlrow">
+          <input id="pm-imgurl" placeholder="Ya Image URL paste karo (https://...)">
+          <button type="button" class="iurladd" id="addUrlBtn">+ Add</button>
+        </div>
+      </div>
+      <div style="font-size:.64rem;color:var(--muted);margin-top:.22rem;">Pehli image thumbnail banega.</div>
+    </div>
+    <div class="fg"><label>Description</label><textarea id="pm-desc" placeholder="Short description..."></textarea></div>
+    <div style="display:flex;gap:.65rem;margin-top:.45rem;">
+      <button class="btn-p" style="flex:1;" id="saveProdBtn">Save Product</button>
+      <button class="btn-o" id="cancelProdBtn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Order Modal -->
+<div class="mbg" id="orderModal">
+  <div class="modal">
+    <button class="mclose" id="closeOrderModal">✕</button>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.22rem;margin-bottom:1.1rem;">Order Details</div>
+    <div id="orderModalContent"></div>
+    <div style="margin-top:1rem;">
+      <button class="btn-p" style="width:100%;" id="downloadInvoiceBtn">⬇ Download Invoice</button>
+    </div>
+  </div>
+</div>
+
+<div id="invPrint" style="position:fixed;top:-9999px;left:-9999px;width:540px;background:#fff;">
+  <div id="invContent"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+<footer>&copy; 2025 <span>INFINEO Clothes</span> — Quality at Your Doorstep</footer>
+
+<script>
+// ── helpers ──────────────────────────────────────────────
+function H(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function toast(msg,dur){dur=dur||2400;var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},dur);}
+function shake(id){var el=document.getElementById(id);if(!el)return;el.style.animation='shake .4s';setTimeout(function(){el.style.animation='';},420);}
+function showPage(id){document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});document.getElementById('pg-'+id).classList.add('active');window.scrollTo(0,0);}
+
+// ── slider ───────────────────────────────────────────────
+var slIdx={};
+function makeSlider(p){
+  var imgs=Array.isArray(p.imgs)&&p.imgs.length?p.imgs:(p.img?[p.img]:[]);
+  var emo=p.emoji||'👔';
+  if(!imgs.length) return '<span style="font-size:3.5rem;">'+emo+'</span>';
+  if(imgs.length===1) return '<img src="'+H(imgs[0])+'" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display=\'none\'">';
+  var sid='sl'+p.id;
+  var slides=imgs.map(function(u){return '<img src="'+H(u)+'" style="min-width:100%;height:100%;object-fit:cover;flex-shrink:0;" onerror="this.style.display=\'none\'">';}).join('');
+  var dots=imgs.map(function(_,i){return '<div class="sldot'+(i===0?' on':'')+'" id="'+sid+'d'+i+'"></div>';}).join('');
+  return '<div class="slwrap"><div class="slides" id="'+sid+'">'+slides+'</div>'
+    +'<button class="slb lft" onclick="event.stopPropagation();slMove(\''+sid+'\',-1,'+imgs.length+')">&#8249;</button>'
+    +'<button class="slb rgt" onclick="event.stopPropagation();slMove(\''+sid+'\',1,'+imgs.length+')">&#8250;</button>'
+    +'<div class="sldots">'+dots+'</div></div>';
+}
+function slMove(sid,dir,total){
+  var el=document.getElementById(sid);if(!el)return;
+  slIdx[sid]=(((slIdx[sid]||0)+dir)+total)%total;
+  el.style.transform='translateX(-'+(slIdx[sid]*100)+'%)';
+  for(var i=0;i<total;i++){var d=document.getElementById(sid+'d'+i);if(d)d.classList.toggle('on',i===slIdx[sid]);}
+}
+
+// ── image upload ─────────────────────────────────────────
+var curImgs=[];
+function renderImgPrev(){
+  var g=document.getElementById('imgPrevGrid');if(!g)return;
+  g.innerHTML=curImgs.map(function(src,i){
+    return '<div class="ipitem"><img src="'+H(src)+'" onerror="this.parentNode.style.background=\'#eee\'"><button class="ipdel" onclick="removeImg('+i+')">✕</button></div>';
+  }).join('');
+}
+function removeImg(i){curImgs.splice(i,1);renderImgPrev();}
+function addImgUrl(){
+  var inp=document.getElementById('pm-imgurl');
+  var url=(inp.value||'').trim();
+  if(!url){toast('❌ URL daalo');return;}
+  curImgs.push(url);inp.value='';renderImgPrev();toast('✓ Image add hui!');
+}
+function handleFiles(files){
+  if(!files||!files.length)return;
+  var arr=Array.from(files);
+  arr.forEach(function(f){
+    if(!f.type.startsWith('image/')){toast('❌ Sirf image files');return;}
+    var r=new FileReader();
+    r.onload=function(e){curImgs.push(e.target.result);renderImgPrev();};
+    r.onerror=function(){toast('❌ Image load nahi hua');};
+    r.readAsDataURL(f);
+  });
+  toast('✓ '+arr.length+' image(s) load ho rahe hain...');
+}
+document.getElementById('camBtn').addEventListener('click',function(){document.getElementById('imgCam').click();});
+document.getElementById('galBtn').addEventListener('click',function(){document.getElementById('imgGal').click();});
+document.getElementById('imgCam').addEventListener('change',function(e){handleFiles(e.target.files);this.value='';});
+document.getElementById('imgGal').addEventListener('change',function(e){handleFiles(e.target.files);this.value='';});
+document.getElementById('addUrlBtn').addEventListener('click',addImgUrl);
+document.getElementById('pm-imgurl').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();addImgUrl();}});
+document.getElementById('pm-freesize').addEventListener('change',function(){
+  document.getElementById('sizeWrap').style.display=this.checked?'none':'block';
+});
+
+// ── config & storage ─────────────────────────────────────
+var CFG={shopName:'INFINEO Clothes',upiId:'shop@upi',adminUser:'INFINEO',adminPass:'INFINEO-123',logoTarget:7};
+var DEF_PRODUCTS=[
+  {id:'p1',name:'Classic White Shirt',brand:'Shop',cat:'Shirt',price:799,stock:30,sizes:['S','M','L','XL','XXL'],freeSize:false,emoji:'👔',imgs:[],img:'',rating:4.5,rcount:12,desc:''},
+  {id:'p2',name:'Slim Fit Black Jeans',brand:'Shop',cat:'Jeans',price:1299,stock:25,sizes:['28','30','32','34','36'],freeSize:false,emoji:'👖',imgs:[],img:'',rating:4.7,rcount:18,desc:''},
+  {id:'p3',name:'Graphic Tee — Street',brand:'Shop',cat:'T-Shirt',price:449,stock:50,sizes:['S','M','L','XL'],freeSize:false,emoji:'👕',imgs:[],img:'',rating:4.3,rcount:9,desc:''},
+  {id:'p4',name:'Formal Trousers — Navy',brand:'Shop',cat:'Trousers',price:999,stock:20,sizes:['28','30','32','34'],freeSize:false,emoji:'🧷',imgs:[],img:'',rating:4.6,rcount:7,desc:''},
+  {id:'p5',name:'Polo T-Shirt — Olive',brand:'Shop',cat:'T-Shirt',price:599,stock:3,sizes:['M','L','XL'],freeSize:false,emoji:'👕',imgs:[],img:'',rating:4.4,rcount:15,desc:''},
+  {id:'p6',name:'Linen Casual Shirt',brand:'Shop',cat:'Casual',price:899,stock:8,sizes:[],freeSize:true,emoji:'🧵',imgs:[],img:'',rating:4.2,rcount:5,desc:''},
+  {id:'p7',name:'Chino Trousers — Khaki',brand:'Shop',cat:'Trousers',price:1099,stock:18,sizes:['30','32','34','36'],freeSize:false,emoji:'🧷',imgs:[],img:'',rating:4.8,rcount:22,desc:''},
+  {id:'p8',name:'Premium Formal Shirt',brand:'Shop',cat:'Formal',price:1199,stock:15,sizes:['S','M','L','XL','XXL'],freeSize:false,emoji:'👔',imgs:[],img:'',rating:4.9,rcount:31,desc:''},
+];
+var products=JSON.parse(localStorage.getItem('sn_p')||'null')||DEF_PRODUCTS;
+var cart=JSON.parse(localStorage.getItem('sn_c')||'[]');
+var orders=JSON.parse(localStorage.getItem('sn_o')||'[]');
+var reviews=JSON.parse(localStorage.getItem('sn_r')||'null')||[
+  {id:'r1',name:'Rahul M.',rating:5,text:'Ekdum mast quality! Bahut comfortable.',date:'2025-01-10',approved:true},
+  {id:'r2',name:'Arjun S.',rating:4,text:'Fabric acha hai, delivery jaldi aayi.',date:'2025-01-15',approved:true},
+];
+var selPayment='upi',curRating=0,editPid=null,logoClicks=0,filterCat='all',searchQ='',viewOid=null;
+
+function saveProd(){localStorage.setItem('sn_p',JSON.stringify(products));}
+function saveCart(){localStorage.setItem('sn_c',JSON.stringify(cart));updateCount();}
+function saveOrders(){localStorage.setItem('sn_o',JSON.stringify(orders));}
+function saveRev(){localStorage.setItem('sn_r',JSON.stringify(reviews));}
+function updateCount(){document.getElementById('cartCount').textContent=cart.reduce(function(s,i){return s+i.qty;},0);}
+
+// ── nav ───────────────────────────────────────────────────
+document.getElementById('logoEl').addEventListener('click',function(){
+  logoClicks++;
+  if(logoClicks>=CFG.logoTarget){logoClicks=0;if(sessionStorage.getItem('adm'))showPage('admin');else showPage('adminlogin');}
+});
+document.getElementById('btnShop').addEventListener('click',function(){showPage('shop');renderProducts();});
+document.getElementById('btnReviews').addEventListener('click',function(){showPage('reviews');renderReviews();});
+document.getElementById('btnCart').addEventListener('click',function(){showPage('cart');renderCart();});
+document.getElementById('btnAfterShop').addEventListener('click',function(){showPage('shop');renderProducts();});
+document.getElementById('btnAfterReview').addEventListener('click',function(){showPage('reviews');renderReviews();});
+
+// ── products ──────────────────────────────────────────────
+function renderProducts(){
+  var grid=document.getElementById('productGrid');
+  var list=products.filter(function(p){
+    return (filterCat==='all'||p.cat===filterCat)&&(!searchQ||p.name.toLowerCase().indexOf(searchQ)>-1||p.cat.toLowerCase().indexOf(searchQ)>-1);
+  });
+  if(!list.length){grid.innerHTML='<div class="empty" style="grid-column:1/-1;background:#fff;"><span>👔</span><p>Koi product nahi mila</p></div>';return;}
+  grid.innerHTML=list.map(function(p){
+    var badge='';
+    if(p.stock===0) badge='<div class="badge badge-out">Out of Stock</div>';
+    else if(p.stock<=5) badge='<div class="badge badge-low">Only '+p.stock+' left</div>';
+    var stars='★'.repeat(Math.round(p.rating||0))+'☆'.repeat(5-Math.round(p.rating||0));
+    var szHtml='';
+    if(p.freeSize){
+      szHtml='<div class="size-sec"><div class="size-lbl">Size</div><div class="sizes"><div class="sz fs on" data-pid="'+p.id+'" data-sz="Free Size">Free Size</div></div></div>';
+    } else if(p.sizes&&p.sizes.length){
+      var szBtns=p.sizes.map(function(s){return '<div class="sz" data-pid="'+p.id+'" data-sz="'+H(s)+'">'+H(s)+'</div>';}).join('');
+      szHtml='<div class="size-sec"><div class="size-lbl">Size <span class="req">*</span></div><div class="sizes">'+szBtns+'</div><div class="serr" id="se-'+p.id+'">Size select karo!</div></div>';
+    }
+    var disabled=p.stock===0?' disabled':'';
+    return '<div class="pcard">'
+      +'<div class="pimg">'+makeSlider(p)+badge+'</div>'
+      +'<div class="pinfo">'
+        +'<div class="pbrand">'+H(p.brand||CFG.shopName)+' · '+H(p.cat)+'</div>'
+        +'<div class="pname">'+H(p.name)+'</div>'
+        +'<div class="pprice">₹'+p.price.toLocaleString()+'</div>'
+        +'<div class="pstars">'+stars+' <span style="color:var(--muted);font-size:.65rem;">('+((p.rcount)||0)+')</span></div>'
+        +szHtml
+        +'<div class="cbtns">'
+          +'<button class="abtn"'+disabled+' onclick="addToCart(\''+p.id+'\')">+ Add to Cart</button>'
+          +'<button class="bbtn"'+disabled+' onclick="buyNow(\''+p.id+'\')">Buy Now</button>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+  // size click
+  document.querySelectorAll('.sz').forEach(function(el){
+    el.addEventListener('click',function(){
+      var pid=this.dataset.pid;
+      document.querySelectorAll('.sz[data-pid="'+pid+'"]').forEach(function(s){s.classList.remove('on');});
+      this.classList.add('on');
+      var err=document.getElementById('se-'+pid);if(err)err.style.display='none';
+    });
+  });
+}
+
+function getSelSize(pid){var s=document.querySelector('.sz[data-pid="'+pid+'"].on');return s?s.dataset.sz:'';}
+
+function addToCart(pid){
+  var p=products.find(function(x){return x.id===pid;});
+  if(!p||p.stock===0)return;
+  var needSz=!p.freeSize&&p.sizes&&p.sizes.length>0;
+  var sz=getSelSize(pid);
+  if(needSz&&!sz){
+    var err=document.getElementById('se-'+pid);if(err)err.style.display='block';
+    toast('❌ Pehle size select karo!');return;
+  }
+  var finalSz=p.freeSize?'Free Size':(sz||'');
+  var ex=cart.find(function(i){return i.pid===pid&&i.sz===finalSz;});
+  if(ex){ex.qty=Math.min(ex.qty+1,p.stock);}
+  else{cart.push({pid:pid,sz:finalSz,qty:1});}
+  saveCart();toast('✓ Cart mein add hua!');
+}
+
+function buyNow(pid){
+  var p=products.find(function(x){return x.id===pid;});if(!p||p.stock===0)return;
+  var needSz=!p.freeSize&&p.sizes&&p.sizes.length>0;
+  var sz=getSelSize(pid);
+  if(needSz&&!sz){var err=document.getElementById('se-'+pid);if(err)err.style.display='block';toast('❌ Pehle size select karo!');return;}
+  addToCart(pid);showPage('cart');renderCart();
+}
+
+document.getElementById('filterBtns').addEventListener('click',function(e){
+  if(!e.target.dataset.cat)return;
+  filterCat=e.target.dataset.cat;
+  document.querySelectorAll('.fb').forEach(function(b){b.classList.remove('on');});
+  e.target.classList.add('on');renderProducts();
+});
+document.getElementById('searchBox').addEventListener('input',function(e){searchQ=e.target.value.toLowerCase().trim();renderProducts();});
+
+// ── cart ──────────────────────────────────────────────────
+function renderCart(){
+  var el=document.getElementById('cartContent');
+  if(!cart.length){
+    el.innerHTML='<div class="empty"><span>🛒</span><p>Cart khaali hai</p><button class="btn-p" style="margin-top:1rem;" onclick="showPage(\'shop\');renderProducts()">Shop Karo</button></div>';return;
+  }
+  var sub=cart.reduce(function(s,i){var p=products.find(function(x){return x.id===i.pid;});return s+(p?p.price*i.qty:0);},0);
+  var items=cart.map(function(i){
+    var p=products.find(function(x){return x.id===i.pid;});if(!p)return '';
+    var thumb='';
+    var imgs=Array.isArray(p.imgs)&&p.imgs.length?p.imgs:(p.img?[p.img]:[]);
+    if(imgs.length) thumb='<img src="'+H(imgs[0])+'" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display=\'none\'">';
+    else thumb='<span style="font-size:1.3rem;">'+(p.emoji||'👔')+'</span>';
+    return '<div class="ci">'
+      +'<div class="ci-img">'+thumb+'</div>'
+      +'<div style="flex:1">'
+        +'<div class="ci-name">'+H(p.name)+'</div>'
+        +'<div class="ci-meta">'+H(p.cat)+(i.sz?' · '+H(i.sz):'')+'</div>'
+        +'<div class="ci-price">₹'+(p.price*i.qty).toLocaleString()+'</div>'
+        +'<div class="qrow">'
+          +'<button class="qbtn" onclick="chgQty(\''+p.id+'\',\''+H(i.sz)+'\',-1)">−</button>'
+          +'<span style="font-size:.82rem;min-width:17px;text-align:center;">'+i.qty+'</span>'
+          +'<button class="qbtn" onclick="chgQty(\''+p.id+'\',\''+H(i.sz)+'\',1)">+</button>'
+          +'<span style="font-size:.7rem;color:var(--muted);">₹'+p.price+' each</span>'
+        +'</div>'
+      +'</div>'
+      +'<button class="rmbtn" onclick="rmCart(\''+p.id+'\',\''+H(i.sz)+'\')">✕</button>'
+    +'</div>';
+  }).join('');
+  var sumRows=cart.map(function(i){var p=products.find(function(x){return x.id===i.pid;});return p?'<div class="srow"><span>'+H(p.name)+(i.sz?' ('+H(i.sz)+')':'')+' ×'+i.qty+'</span><span>₹'+(p.price*i.qty).toLocaleString()+'</span></div>':'';}).join('');
+  el.innerHTML='<div class="clayout"><div>'+items+'</div><div><div class="sbox">'
+    +'<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.05rem;margin-bottom:.88rem;">Summary</div>'
+    +sumRows
+    +'<hr style="border:none;border-top:1px solid var(--border);margin:.65rem 0;">'
+    +'<div class="srow"><span>Subtotal</span><span>₹'+sub.toLocaleString()+'</span></div>'
+    +'<div class="srow"><span>Delivery</span><span style="color:var(--green);font-weight:600;">FREE</span></div>'
+    +'<div class="srow stotal"><span>Total</span><span>₹'+sub.toLocaleString()+'</span></div>'
+    +'<button class="btn-p" style="width:100%;margin-top:.95rem;padding:.78rem;" onclick="goCheckout()">Checkout →</button>'
+    +'<button class="btn-o" style="width:100%;margin-top:.45rem;" onclick="showPage(\'shop\');renderProducts()">Continue Shopping</button>'
+    +'</div></div></div>';
+}
+
+function chgQty(pid,sz,delta){
+  var item=cart.find(function(i){return i.pid===pid&&i.sz===sz;});if(!item)return;
+  var p=products.find(function(x){return x.id===pid;});
+  item.qty=Math.max(1,Math.min(item.qty+delta,p?p.stock:99));
+  saveCart();renderCart();
+}
+function rmCart(pid,sz){cart=cart.filter(function(i){return !(i.pid===pid&&i.sz===sz);});saveCart();renderCart();}
+function goCheckout(){if(!cart.length){toast('❌ Cart khaali hai!');return;}renderCoSummary();showPage('checkout');}
+function renderCoSummary(){
+  var sub=cart.reduce(function(s,i){var p=products.find(function(x){return x.id===i.pid;});return s+(p?p.price*i.qty:0);},0);
+  document.getElementById('coSub').textContent='₹'+sub.toLocaleString();
+  document.getElementById('coTotal').textContent='₹'+sub.toLocaleString();
+  document.getElementById('coItems').innerHTML=cart.map(function(i){var p=products.find(function(x){return x.id===i.pid;});return p?'<div class="srow"><span>'+H(p.name)+(i.sz?' ('+H(i.sz)+')':'')+' ×'+i.qty+'</span><span>₹'+(p.price*i.qty).toLocaleString()+'</span></div>':'';}).join('');
+}
+document.querySelectorAll('.popt').forEach(function(opt){
+  opt.addEventListener('click',function(){
+    document.querySelectorAll('.popt').forEach(function(o){o.classList.remove('on');});
+    this.classList.add('on');selPayment=this.dataset.pay;
+    var notes={upi:'📱 UPI payment after order confirmation.',netbanking:'🏦 Net Banking details after order.',card:'💳 Card payment link will be sent.',cod:'💵 Pay cash when order arrives.'};
+    document.getElementById('payNote').textContent=notes[selPayment]||'';
+  });
+});
+
+// ── place order ───────────────────────────────────────────
+document.getElementById('placeOrderBtn').addEventListener('click',function(){
+  var name=document.getElementById('cName').value.trim();
+  var phone=document.getElementById('cPhone').value.trim();
+  var addr=document.getElementById('cAddr').value.trim();
+  var pin=document.getElementById('cPin').value.trim();
+  if(!name){shake('cName');toast('❌ Naam daalo!');return;}
+  if(!phone||phone.length<10){shake('cPhone');toast('❌ Valid phone daalo!');return;}
+  if(!addr){shake('cAddr');toast('❌ Address daalo!');return;}
+  if(!pin||pin.length<6){shake('cPin');toast('❌ PIN daalo!');return;}
+  var oid='ORD-'+Date.now().toString().slice(-6);
+  var sub=cart.reduce(function(s,i){var p=products.find(function(x){return x.id===i.pid;});return s+(p?p.price*i.qty:0);},0);
+  var snap=cart.map(function(i){var p=products.find(function(x){return x.id===i.pid;});return p?{pid:i.pid,name:p.name,sz:i.sz,qty:i.qty,price:p.price}:null;}).filter(Boolean);
+  cart.forEach(function(i){var p=products.find(function(x){return x.id===i.pid;});if(p)p.stock=Math.max(0,p.stock-i.qty);});
+  saveProd();
+  var order={id:oid,date:new Date().toISOString(),status:'pending',trackingLink:'',
+    customer:{name:name,phone:phone,email:document.getElementById('cEmail').value,alt:document.getElementById('cAlt').value,addr:addr,landmark:document.getElementById('cLand').value,pin:pin},
+    items:snap,subtotal:sub,payment:selPayment,note:document.getElementById('cNote').value};
+  orders.unshift(order);saveOrders();
+  cart=[];saveCart();
+  ['cName','cPhone','cEmail','cAlt','cAddr','cLand','cPin','cNote'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('successOid').textContent='Order ID: '+oid;
+  showPage('success');
+});
+
+// ── reviews ───────────────────────────────────────────────
+function renderReviews(){
+  var approved=reviews.filter(function(r){return r.approved;});
+  var el=document.getElementById('reviewList');
+  if(!approved.length){el.innerHTML='<div class="empty"><span>💬</span><p>Abhi koi review nahi</p></div>';return;}
+  var avg=approved.reduce(function(s,r){return s+r.rating;},0)/approved.length;
+  var bars=[5,4,3,2,1].map(function(s){var c=approved.filter(function(r){return r.rating===s;}).length;var pct=Math.round(c/approved.length*100)||0;
+    return '<div style="display:flex;align-items:center;gap:.42rem;margin-bottom:.25rem;font-size:.72rem;"><span style="color:var(--muted);width:10px;">'+s+'</span><div style="flex:1;background:var(--border);border-radius:2px;height:4px;"><div style="width:'+pct+'%;background:var(--dark);height:100%;border-radius:2px;"></div></div><span style="color:var(--muted);width:25px;">'+pct+'%</span></div>';
+  }).join('');
+  el.innerHTML='<div style="background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:1.1rem;margin-bottom:1rem;display:flex;align-items:center;gap:1.1rem;">'
+    +'<div style="text-align:center;min-width:52px;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:2.5rem;font-weight:700;line-height:1;">'+avg.toFixed(1)+'</div>'
+    +'<div style="color:var(--gold);font-size:.86rem;">'+'★'.repeat(Math.round(avg))+'</div>'
+    +'<div style="color:var(--muted);font-size:.68rem;">'+approved.length+' reviews</div></div>'
+    +'<div style="flex:1;">'+bars+'</div></div>'
+    +approved.map(function(r){return '<div class="rc"><div style="display:flex;justify-content:space-between;align-items:start;"><div><div style="font-weight:600;font-size:.83rem;">'+H(r.name)+'</div><div style="color:var(--gold);font-size:.76rem;">'+'★'.repeat(r.rating)+'☆'.repeat(5-r.rating)+'</div></div><div style="font-size:.67rem;color:var(--border2);">'+new Date(r.date).toLocaleDateString('en-IN')+'</div></div><div style="margin-top:.3rem;font-size:.79rem;color:var(--muted);line-height:1.6;">'+H(r.text)+'</div></div>';}).join('');
+}
+document.querySelectorAll('#starPick span').forEach(function(s){
+  s.addEventListener('click',function(){curRating=parseInt(this.dataset.s);document.querySelectorAll('#starPick span').forEach(function(sp,i){sp.classList.toggle('on',i<curRating);});});
+  s.addEventListener('mouseover',function(){var v=parseInt(this.dataset.s);document.querySelectorAll('#starPick span').forEach(function(sp,i){sp.classList.toggle('on',i<v);});});
+  s.addEventListener('mouseout',function(){document.querySelectorAll('#starPick span').forEach(function(sp,i){sp.classList.toggle('on',i<curRating);});});
+});
+document.getElementById('submitRevBtn').addEventListener('click',function(){
+  var name=document.getElementById('rName').value.trim(),text=document.getElementById('rText').value.trim();
+  if(!name||!text||!curRating){toast('❌ Naam, rating aur review daalo!');return;}
+  reviews.unshift({id:'r'+Date.now(),name:name,rating:curRating,text:text,date:new Date().toISOString(),approved:false});
+  saveRev();
+  document.getElementById('rName').value='';document.getElementById('rText').value='';curRating=0;
+  document.querySelectorAll('#starPick span').forEach(function(s){s.classList.remove('on');});
+  toast('✓ Review submit hua! Admin approve karega.');
+});
+
+// ── admin login ───────────────────────────────────────────
+document.getElementById('adminLoginBtn').addEventListener('click',function(){
+  var u=document.getElementById('adminUser').value.trim(),pw=document.getElementById('adminPw').value;
+  if(u===CFG.adminUser&&pw===CFG.adminPass){sessionStorage.setItem('adm','1');showPage('admin');renderSection('dashboard');}
+  else{['adminUser','adminPw'].forEach(function(id){var el=document.getElementById(id);el.style.animation='shake .4s';setTimeout(function(){el.style.animation='';},420);});toast('❌ Wrong credentials!');}
+});
+document.getElementById('adminPw').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('adminLoginBtn').click();});
+document.getElementById('eyeBtn').addEventListener('click',function(){var inp=document.getElementById('adminPw');inp.type=inp.type==='password'?'text':'password';});
+document.getElementById('logoutBtn').addEventListener('click',function(){sessionStorage.removeItem('adm');showPage('shop');renderProducts();});
+document.querySelectorAll('.asb[data-sec]').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.asb').forEach(function(b){b.classList.remove('on');});
+    this.classList.add('on');renderSection(this.dataset.sec);
+  });
+});
+
+// ── admin sections ────────────────────────────────────────
+function renderSection(sec){
+  var el=document.getElementById('adminMain');
+  var totalRev=orders.reduce(function(s,o){return s+o.subtotal;},0);
+  var pend=orders.filter(function(o){return o.status==='pending';}).length;
+  var pr=reviews.filter(function(r){return !r.approved;}).length;
+
+  if(sec==='dashboard'){
+    el.innerHTML='<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.4rem;margin-bottom:1.1rem;">Dashboard</div>'
+      +'<div class="sgrid">'
+      +'<div class="sc"><div class="snum">'+orders.length+'</div><div class="slbl">Orders</div></div>'
+      +'<div class="sc"><div class="snum">'+pend+'</div><div class="slbl">Pending</div></div>'
+      +'<div class="sc"><div class="snum">₹'+totalRev.toLocaleString()+'</div><div class="slbl">Revenue</div></div>'
+      +'<div class="sc"><div class="snum">'+products.length+'</div><div class="slbl">Products</div></div>'
+      +'<div class="sc"><div class="snum">'+pr+'</div><div class="slbl">Reviews Pending</div></div>'
+      +'</div>'
+      +'<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.02rem;margin-bottom:.65rem;">Recent Orders</div>'
+      +(orders.slice(0,5).length
+        ?'<table><thead><tr><th>ID</th><th>Customer</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead><tbody>'
+          +orders.slice(0,5).map(function(o){return '<tr><td style="font-weight:700;">'+o.id+'</td><td>'+H(o.customer.name)+'</td><td>₹'+o.subtotal.toLocaleString()+'</td><td><span class="os os-'+o.status+'">'+o.status+'</span></td><td><button class="ab ab-v" onclick="viewOrder(\''+o.id+'\')">View</button></td></tr>';}).join('')
+          +'</tbody></table>'
+        :'<div class="empty"><span>📦</span><p>Koi order nahi</p></div>');
+  } else if(sec==='orders'){
+    el.innerHTML='<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.4rem;margin-bottom:1.1rem;">Orders</div>'
+      +(orders.length
+        ?'<table><thead><tr><th>ID</th><th>Date</th><th>Customer</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead><tbody>'
+          +orders.map(function(o){return '<tr><td style="font-weight:700;">'+o.id+'</td><td style="color:var(--muted);">'+new Date(o.date).toLocaleDateString('en-IN')+'</td><td>'+H(o.customer.name)+'</td><td>₹'+o.subtotal.toLocaleString()+'</td>'
+            +'<td><select onchange="updStatus(\''+o.id+'\',this.value)" style="font-size:.7rem;padding:.18rem;border:1px solid var(--border);border-radius:2px;">'+['pending','confirmed','shipped','delivered','cancelled'].map(function(s){return '<option value="'+s+'"'+(o.status===s?' selected':'')+'>'+s+'</option>';}).join('')+'</select></td>'
+            +'<td style="display:flex;gap:.25rem;flex-wrap:wrap;"><button class="ab ab-v" onclick="viewOrder(\''+o.id+'\')">View</button><a class="ab ab-c" href="tel:'+o.customer.phone+'">Call</a><button class="ab ab-d" onclick="delOrder(\''+o.id+'\')">Del</button></td></tr>';}).join('')
+          +'</tbody></table>'
+        :'<div class="empty"><span>📦</span><p>Koi order nahi</p></div>');
+  } else if(sec==='products'){
+    el.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.1rem;flex-wrap:wrap;gap:.65rem;">'
+      +'<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.4rem;">Products</div>'
+      +'<button class="btn-p" onclick="openProdModal()">+ Add Product</button></div>'
+      +'<table><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Sizes</th><th>Actions</th></tr></thead><tbody>'
+      +products.map(function(p){return '<tr>'
+        +'<td>'+(p.emoji||'👔')+' '+H(p.name)+'</td>'
+        +'<td style="color:var(--muted);">'+H(p.cat)+'</td>'
+        +'<td>₹'+p.price.toLocaleString()+'</td>'
+        +'<td style="color:'+(p.stock===0?'var(--red)':p.stock<=5?'#8b6914':'var(--green)')+';font-weight:700;">'+p.stock+'</td>'
+        +'<td style="color:var(--muted);font-size:.74rem;">'+(p.freeSize?'<em>Free Size</em>':(p.sizes&&p.sizes.length?p.sizes.join(', '):'—'))+'</td>'
+        +'<td style="display:flex;gap:.25rem;"><button class="ab ab-v" onclick="openProdModal(\''+p.id+'\')">Edit</button><button class="ab ab-d" onclick="delProd(\''+p.id+'\')">Del</button></td>'
+        +'</tr>';}).join('')
+      +'</tbody></table>';
+  } else if(sec==='reviews'){
+    el.innerHTML='<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.4rem;margin-bottom:1.1rem;">Reviews</div>'
+      +(reviews.length
+        ?reviews.map(function(r){return '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:.9rem;margin-bottom:.6rem;"><div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:.42rem;">'
+          +'<div><div style="font-weight:600;font-size:.85rem;">'+H(r.name)+' <span style="color:var(--gold);">'+'★'.repeat(r.rating)+'</span></div><div style="color:var(--muted);font-size:.76rem;margin-top:.18rem;">'+H(r.text)+'</div></div>'
+          +'<div style="display:flex;gap:.3rem;align-items:center;">'
+          +(!r.approved?'<button class="ab ab-v" onclick="approveRev(\''+r.id+'\')">✓ Approve</button>':'<span style="color:var(--green);font-size:.68rem;font-weight:600;">✓ APPROVED</span>')
+          +'<button class="ab ab-d" onclick="delRev(\''+r.id+'\')">Delete</button></div></div></div>';}).join('')
+        :'<div class="empty"><span>💬</span><p>Koi review nahi</p></div>');
+  } else if(sec==='settings'){
+    el.innerHTML='<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.4rem;margin-bottom:1.1rem;">Settings</div>'
+      +'<div style="background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:1.2rem;margin-bottom:1rem;">'
+      +'<div style="font-size:.65rem;color:var(--muted);margin-bottom:.9rem;text-transform:uppercase;letter-spacing:.4px;">Store Info</div>'
+      +'<div class="fg"><label>UPI ID</label><input id="s-upi" value="'+H(CFG.upiId)+'"></div>'
+      +'<div class="fg"><label>Admin Username</label><input id="s-user" value="'+H(CFG.adminUser)+'"></div>'
+      +'<div class="fg"><label>New Password</label><input id="s-pw" type="password" placeholder="Khali chhodo agar change nahi karna"></div>'
+      +'<button class="btn-p" onclick="saveSettings()">Save Settings</button></div>'
+      +'<div style="background:#fff5f5;border:1px solid #ffcdd2;border-radius:2px;padding:1.2rem;">'
+      +'<div style="font-size:.65rem;color:var(--red);margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.4px;">Danger Zone</div>'
+      +'<button class="btn-o" style="border-color:var(--red);color:var(--red);" onclick="if(confirm(\'Saare orders delete karein?\')){orders=[];saveOrders();toast(\'✓ Orders cleared.\');}">Clear All Orders</button></div>';
+  }
+}
+
+function updStatus(id,status){var o=orders.find(function(x){return x.id===id;});if(o){o.status=status;saveOrders();toast('✓ Status: '+status);}}
+function delOrder(id){if(!confirm('Delete karein?'))return;orders=orders.filter(function(o){return o.id!==id;});saveOrders();renderSection('orders');toast('✓ Deleted.');}
+
+// ── view order ────────────────────────────────────────────
+function viewOrder(id){
+  var o=orders.find(function(x){return x.id===id;});if(!o)return;
+  viewOid=id;
+  var sc={pending:'#fff8e1',confirmed:'#e8f4fd',shipped:'#f3e5f5',delivered:'#e8f5e9',cancelled:'#ffebee'};
+  var tc={pending:'#8b6914',confirmed:'#1565c0',shipped:'#6a1b9a',delivered:'#1b5e20',cancelled:'#b71c1c'};
+  var html='<div style="margin-bottom:.9rem;">'
+    +'<div class="odr"><span class="odl">Order ID</span><span class="odv">'+o.id+'</span></div>'
+    +'<div class="odr"><span class="odl">Date</span><span class="odv">'+new Date(o.date).toLocaleString('en-IN')+'</span></div>'
+    +'<div class="odr"><span class="odl">Status</span><span class="odv"><span style="background:'+sc[o.status]+';color:'+tc[o.status]+';padding:.12rem .42rem;border-radius:2px;font-size:.62rem;font-weight:700;text-transform:uppercase;">'+o.status+'</span></span></div>'
+    +'<div class="odr"><span class="odl">Payment</span><span class="odv">'+o.payment.toUpperCase()+'</span></div>'
+    +'</div>'
+    +'<div style="font-size:.64rem;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:.42rem;">Customer</div>'
+    +'<div style="margin-bottom:.9rem;">'
+    +'<div class="odr"><span class="odl">Name</span><span class="odv">'+H(o.customer.name)+'</span></div>'
+    +'<div class="odr"><span class="odl">Phone</span><span class="odv"><a href="tel:'+o.customer.phone+'" style="color:var(--dark);font-weight:700;">'+o.customer.phone+'</a></span></div>'
+    +'<div class="odr"><span class="odl">Address</span><span class="odv">'+H(o.customer.addr)+', '+o.customer.pin+'</span></div>'
+    +(o.customer.landmark?'<div class="odr"><span class="odl">Landmark</span><span class="odv">'+H(o.customer.landmark)+'</span></div>':'')
+    +'</div>'
+    +'<div style="font-size:.64rem;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:.42rem;">Items</div>'
+    +o.items.map(function(i){return '<div class="odr"><span class="odl">'+H(i.name)+(i.sz?' ('+H(i.sz)+')':'')+' ×'+i.qty+'</span><span class="odv">₹'+(i.price*i.qty).toLocaleString()+'</span></div>';}).join('')
+    +'<div class="odr" style="border-top:1.5px solid var(--dark);margin-top:.38rem;padding-top:.65rem;"><span style="font-weight:700;">Total</span><span style="font-weight:700;font-family:\'Cormorant Garamond\',serif;font-size:1.02rem;">₹'+o.subtotal.toLocaleString()+'</span></div>'
+    +(o.note?'<div style="margin-top:.65rem;background:var(--bg2);border-radius:2px;padding:.55rem;font-size:.77rem;color:var(--muted);">📝 '+H(o.note)+'</div>':'')
+    +'<div style="margin-top:.95rem;">'
+    +'<label style="font-size:.64rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:.28rem;">Tracking Link</label>'
+    +'<div style="display:flex;gap:.35rem;"><input id="trackInp" value="'+H(o.trackingLink||'')+'" placeholder="https://tracking-link..." style="flex:1;font-size:.77rem;"><button onclick="saveTracking(\''+o.id+'\')" style="padding:.34rem .58rem;background:var(--dark);color:#fff;border:none;border-radius:2px;cursor:pointer;font-size:.75rem;white-space:nowrap;font-family:\'DM Sans\',sans-serif;">Save</button></div>'
+    +'</div>';
+  document.getElementById('orderModalContent').innerHTML=html;
+  document.getElementById('orderModal').classList.add('open');
+}
+function saveTracking(id){var o=orders.find(function(x){return x.id===id;});if(!o)return;o.trackingLink=document.getElementById('trackInp').value.trim();saveOrders();toast('✓ Tracking saved!');}
+
+// ── invoice ───────────────────────────────────────────────
+document.getElementById('downloadInvoiceBtn').addEventListener('click',function(){
+  if(!viewOid)return;var o=orders.find(function(x){return x.id===viewOid;});if(!o)return;genInvoice(o);
+});
+function genInvoice(o){
+  var sc={pending:'#fff8e1',confirmed:'#e8f4fd',shipped:'#f3e5f5',delivered:'#e8f5e9',cancelled:'#ffebee'};
+  var tc={pending:'#8b6914',confirmed:'#1565c0',shipped:'#6a1b9a',delivered:'#1b5e20',cancelled:'#b71c1c'};
+  var el=document.getElementById('invContent');
+  el.innerHTML='<div style="background:#fff;padding:2rem;max-width:500px;font-family:\'DM Sans\',sans-serif;">'
+    +'<div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #0a0a0a;padding-bottom:.9rem;margin-bottom:.9rem;">'
+    +'<div><div style="font-family:\'Cormorant Garamond\',serif;font-size:1.55rem;font-weight:700;font-style:italic;">'+H(CFG.shopName)+'</div><div style="background:#0a0a0a;color:#fff;font-size:.62rem;padding:.18rem .55rem;border-radius:2px;letter-spacing:1px;text-transform:uppercase;display:inline-block;margin-top:.28rem;">Invoice</div></div>'
+    +'<div style="text-align:right;font-size:.73rem;color:#888;"><div><strong style="color:#0a0a0a;font-size:.8rem;">'+o.id+'</strong></div><div>'+new Date(o.date).toLocaleDateString('en-IN')+'</div><div style="margin-top:.28rem;"><span style="background:'+sc[o.status]+';color:'+tc[o.status]+';padding:.12rem .42rem;border-radius:2px;font-size:.62rem;font-weight:700;text-transform:uppercase;">'+o.status+'</span></div></div>'
+    +'</div>'
+    +'<div style="margin-bottom:.85rem;"><div style="font-size:.6rem;text-transform:uppercase;letter-spacing:1px;color:#888;border-bottom:1px solid #e5e5e5;padding-bottom:.22rem;margin-bottom:.38rem;">Bill To</div>'
+    +'<div style="font-size:.78rem;"><strong>'+H(o.customer.name)+'</strong></div>'
+    +'<div style="font-size:.78rem;color:#555;">'+o.customer.phone+'</div>'
+    +'<div style="font-size:.78rem;color:#555;">'+H(o.customer.addr)+', '+o.customer.pin+'</div>'
+    +(o.customer.landmark?'<div style="font-size:.78rem;color:#555;">'+H(o.customer.landmark)+'</div>':'')+'</div>'
+    +'<div style="margin-bottom:.85rem;"><div style="font-size:.6rem;text-transform:uppercase;letter-spacing:1px;color:#888;border-bottom:1px solid #e5e5e5;padding-bottom:.22rem;margin-bottom:.38rem;">Items</div>'
+    +'<table style="width:100%;border-collapse:collapse;font-size:.76rem;"><thead><tr style="background:#f7f7f7;"><th style="padding:.38rem .55rem;text-align:left;font-size:.64rem;text-transform:uppercase;color:#888;">Item</th><th style="padding:.38rem .55rem;text-align:left;font-size:.64rem;text-transform:uppercase;color:#888;">Size</th><th style="padding:.38rem .55rem;text-align:left;font-size:.64rem;text-transform:uppercase;color:#888;">Qty</th><th style="padding:.38rem .55rem;text-align:right;font-size:.64rem;text-transform:uppercase;color:#888;">Amount</th></tr></thead><tbody>'
+    +o.items.map(function(i){return '<tr><td style="padding:.4rem .55rem;border-bottom:1px solid #e5e5e5;">'+H(i.name)+'</td><td style="padding:.4rem .55rem;border-bottom:1px solid #e5e5e5;">'+H(i.sz||'—')+'</td><td style="padding:.4rem .55rem;border-bottom:1px solid #e5e5e5;">'+i.qty+'</td><td style="padding:.4rem .55rem;border-bottom:1px solid #e5e5e5;text-align:right;">₹'+(i.price*i.qty).toLocaleString()+'</td></tr>';}).join('')
+    +'</tbody></table>'
+    +'<div style="display:flex;justify-content:space-between;font-size:.77rem;padding:.2rem 0;color:#666;"><span>Delivery</span><span style="color:#1a7a4a;font-weight:600;">FREE</span></div>'
+    +'<div style="display:flex;justify-content:space-between;font-weight:700;font-size:.92rem;border-top:2px solid #0a0a0a;padding-top:.55rem;margin-top:.28rem;font-family:\'Cormorant Garamond\',serif;"><span>Total</span><span>₹'+o.subtotal.toLocaleString()+'</span></div></div>'
+    +'<div style="font-size:.6rem;text-transform:uppercase;letter-spacing:1px;color:#888;border-bottom:1px solid #e5e5e5;padding-bottom:.22rem;margin-bottom:.38rem;">Payment</div>'
+    +'<div style="font-size:.78rem;color:#555;">Method: '+o.payment.toUpperCase()+(CFG.upiId&&o.payment==='upi'?' · UPI: '+H(CFG.upiId):'')+'</div>'
+    +(o.note?'<div style="margin-top:.7rem;font-size:.78rem;color:#888;">Note: '+H(o.note)+'</div>':'')
+    +'<div style="text-align:center;font-size:.68rem;color:#aaa;margin-top:1.1rem;padding-top:.75rem;border-top:1px dashed #d0d0d0;">Shukriya '+H(o.customer.name)+' ji! Aapki shopping ke liye dhanyavaad 🙏<br>'+H(CFG.shopName)+'</div>'
+    +'</div>';
+  var wrap=document.getElementById('invPrint');
+  wrap.style.display='block';
+  if(typeof html2canvas!=='undefined'){
+    html2canvas(el,{scale:2,backgroundColor:'#ffffff',useCORS:true}).then(function(canvas){
+      wrap.style.display='none';
+      var a=document.createElement('a');a.download='Invoice_'+o.id+'.png';a.href=canvas.toDataURL('image/png');a.click();
+      toast('✓ Invoice download ho rahi hai!');
+    }).catch(function(){wrap.style.display='none';toast('❌ Download mein problem!');});
+  } else {wrap.style.display='none';toast('❌ html2canvas load nahi hua');}
+}
+
+// ── product modal ─────────────────────────────────────────
+function openProdModal(id){
+  editPid=id||null;
+  var p=id?products.find(function(x){return x.id===id;}):null;
+  document.getElementById('prodModalTitle').textContent=id?'Edit Product':'Add Product';
+  document.getElementById('pm-name').value=p?p.name:'';
+  document.getElementById('pm-cat').value=p?p.cat:'T-Shirt';
+  document.getElementById('pm-price').value=p?p.price:'';
+  document.getElementById('pm-stock').value=p?p.stock:'';
+  document.getElementById('pm-brand').value=p?p.brand:'';
+  document.getElementById('pm-emoji').value=p?p.emoji:'👔';
+  document.getElementById('pm-desc').value=p?p.desc||'':'';
+  var isFree=p?!!p.freeSize:false;
+  document.getElementById('pm-freesize').checked=isFree;
+  document.getElementById('sizeWrap').style.display=isFree?'none':'block';
+  document.getElementById('pm-sizes').value=p&&!p.freeSize&&p.sizes&&p.sizes.length?p.sizes.join(', '):'';
+  curImgs=p?(Array.isArray(p.imgs)&&p.imgs.length?p.imgs.slice():(p.img?[p.img]:[])):[];
+  renderImgPrev();
+  document.getElementById('pm-imgurl').value='';
+  document.getElementById('prodModal').classList.add('open');
+}
+document.getElementById('closeProdModal').addEventListener('click',function(){document.getElementById('prodModal').classList.remove('open');});
+document.getElementById('cancelProdBtn').addEventListener('click',function(){document.getElementById('prodModal').classList.remove('open');});
+document.getElementById('saveProdBtn').addEventListener('click',function(){
+  var name=document.getElementById('pm-name').value.trim();
+  var price=parseFloat(document.getElementById('pm-price').value);
+  var stock=parseInt(document.getElementById('pm-stock').value);
+  if(!name){shake('pm-name');toast('❌ Naam daalo!');return;}
+  if(!price||isNaN(price)){shake('pm-price');toast('❌ Price daalo!');return;}
+  if(isNaN(stock)||stock<0){shake('pm-stock');toast('❌ Stock daalo!');return;}
+  var isFree=document.getElementById('pm-freesize').checked;
+  var sizes=isFree?[]:document.getElementById('pm-sizes').value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+  var imgs=curImgs.slice();
+  var data={name:name,cat:document.getElementById('pm-cat').value,price:price,stock:stock,brand:document.getElementById('pm-brand').value||CFG.shopName,sizes:sizes,freeSize:isFree,emoji:document.getElementById('pm-emoji').value||'👔',imgs:imgs,img:imgs.length?imgs[0]:'',desc:document.getElementById('pm-desc').value};
+  if(editPid){var p=products.find(function(x){return x.id===editPid;});if(p)Object.assign(p,data);}
+  else{products.push(Object.assign({id:'p'+Date.now(),rating:0,rcount:0},data));}
+  saveProd();
+  document.getElementById('prodModal').classList.remove('open');
+  renderSection('products');toast('✓ Product save hua!');
+});
+
+function delProd(id){if(!confirm('Delete karein?'))return;products=products.filter(function(p){return p.id!==id;});saveProd();renderSection('products');toast('✓ Deleted.');}
+function approveRev(id){var r=reviews.find(function(x){return x.id===id;});if(r){r.approved=true;saveRev();renderSection('reviews');toast('✓ Approved!');}}
+function delRev(id){if(!confirm('Delete karein?'))return;reviews=reviews.filter(function(r){return r.id!==id;});saveRev();renderSection('reviews');toast('✓ Deleted.');}
+function saveSettings(){
+  var upi=document.getElementById('s-upi').value.trim();
+  var user=document.getElementById('s-user').value.trim();
+  var pw=document.getElementById('s-pw').value.trim();
+  if(upi)CFG.upiId=upi;if(user)CFG.adminUser=user;if(pw)CFG.adminPass=pw;
+  toast('✓ Settings saved!');
+}
+
+// modal backdrop close
+['prodModal','orderModal'].forEach(function(mid){
+  document.getElementById(mid).addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
+});
+document.getElementById('closeOrderModal').addEventListener('click',function(){document.getElementById('orderModal').classList.remove('open');});
+
+// ── init ──────────────────────────────────────────────────
+updateCount();
+renderProducts();
+</script>
+</body>
+</html>
